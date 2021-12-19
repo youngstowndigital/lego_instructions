@@ -1,10 +1,11 @@
 require 'webdrivers'
 require 'watir'
+require './config'
 
 prefs = {
   download: {
     'prompt_for_download' => false,
-    'default_directory' => '/Users/mikewittenauer/Desktop/lego_instructions/download_script/downloads/75300'
+    'default_directory' => DownloadConfig::CONFIG[:download_directory]
   },
   plugins: {
     'always_open_pdf_externally' => true
@@ -13,9 +14,7 @@ prefs = {
 
 browser = Watir::Browser.new :chrome, options: {prefs: prefs}
 
-#browser = Watir::Browser.start 'https://www.lego.com/en-us/service/buildinginstructions/'
-
-browser.goto 'https://www.lego.com/en-us/service/buildinginstructions/'
+browser.goto DownloadConfig::CONFIG[:lego_url]
 
 age_gate = browser.element(class: 'AgeGatestyles__Wrapper-xudtvj-0').wait_until(&:exists?)
 age_gate_button = browser.element(class: ['Button__Base-sc-1jdmsyi-0', 'eLFkVi AgeGatestyles__StyledButton-xudtvj-12', 'hycfPw'])
